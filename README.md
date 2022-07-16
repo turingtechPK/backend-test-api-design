@@ -53,19 +53,28 @@ Store the fetched data in a storage system of your choice (in-memory, filesystem
     "newContributors": ...,
 }
 ```
-
-You can use any programming language and/or framework for this application as long as it's reliable, fault tolerant and efficient. However we prefer using node.js with Express or Nest.
-
-Make sure that you put the instructions on how to preview your application and run it, so that we can easily see the result.
-
 You can access the GitHub API using your personal GitHub account. There are many ways to retrieve the needed data, choose the most simple one, you do not need to handle more than what is required for the app.
 
-When you're done, please create a pull request and reply back to hr@turingtechnologies.org
+## Evaluation Criteria
 
-### 2. Technical Presentation on Loom
-Make a presentation using loom.com and send us that in your reply.
+- Node best practices
+- Completeness: did you complete the features?
+- Correctness: does the functionality act in sensible, thought-out ways?
+- Maintainability: is it written in a clean, maintainable way?
+- Testing: is the system adequately tested?
+- Documentation: is the API well-documented?
+
+## Bonus
+
+- Use typescript
+- Use NestJS or any other framework like loopback
+
+## Code Submit
+Please organize, design, test and document your code as if it were going into production. Fork this repository and send us a pull request. We will review it and get back to you in order to talk about your code! 
+
+__Feel free to apply! Drop us a line with your Linkedin/Github/Twitter/AnySocialProfileWhereYouAreActive at hr@turingtechnologies.org__
 
 ## Questions
 Please remember that the test has all the information you need to complete it, in case of confusion just make an assumption and move forward with your work.
 
-Good luck!
+All the best and happy coding.
