@@ -7,7 +7,7 @@ The goal of this test is to evaluate your ability:
 
 ## Instructions
 
-For an organisation of your choice on GitHub (that has public repositories), you need to build an app that computes the number of monthly new contributors for each of those repositories, from the month of their creation until now.
+For an organisation of your choice on GitHub (that has public repositories like Airbnb https://github.com/airbnb) , you need to build an app that computes the number of monthly new contributors for each of those repositories, from the month of their creation until now.
 
 A new contributor is someone who did a commit for the first time in a repository.
 
