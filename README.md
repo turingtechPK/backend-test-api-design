@@ -1,5 +1,10 @@
 # TuringTech Technical Test / Backend API (Beginner -> Intermediate)
 
+
+
+Please open "Documentation.pdf" for details about my approach for this test.
+
+
 The goal of this test is to evaluate your ability:
 - to architecture a simple but reliable backend application,
 - to process data and compute metrics,
