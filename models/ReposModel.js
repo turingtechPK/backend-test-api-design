@@ -27,7 +27,6 @@ async function getAllReposData(req, res) {
       finalData.push(newobj);
     }
 
-    console.log('finalData');
     return finalData;
   } catch (error) {
     console.log(error);
@@ -78,5 +77,4 @@ async function newContributor(repo_name, year, month) {
 
 module.exports = {
   getAllReposData,
-  newContributor,
 };
