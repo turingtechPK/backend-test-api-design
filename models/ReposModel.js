@@ -1,23 +1,33 @@
 const axios = require('axios');
 const moment = require('moment');
 const { host_name, organization_name, error_message } = require('../constants/constants');
+const config = require('../config/headers');
 
 // Geting All repos Data
 async function getAllReposData(req, res) {
   try {
     let { year, month } = req.query;
-    const response = await axios.get(`https://${host_name}/users/${organization_name}/repos`);
+    const response = await axios.get(
+      `https://${host_name}/users/${organization_name}/repos`,
+      config
+    );
     const data = response.data;
-    let finalData = [];
-    data.map(async (repo) => {
-      let reponame = repo.name;
-      let newobj = {};
+    const finalData = [];
+
+    for (const repo of data) {
+      const reponame = repo.name;
+      const newobj = {};
       newobj.org = organization_name;
-      newobj.year = year;
+      newobj.year = year || null;
+      if (month) {
+        newobj.month = month;
+      }
       newobj.repository = repo.name;
       newobj.newContributors = await newContributor(reponame, year, month);
       finalData.push(newobj);
-    });
+    }
+
+    console.log('finalData');
     return finalData;
   } catch (error) {
     console.log(error);
@@ -30,7 +40,8 @@ async function newContributor(repo_name, year, month) {
   try {
     let uniqueContributorsEmail = new Set();
     let response = await axios.get(
-      `https://${host_name}/repos/${organization_name}/${repo_name}/commits`
+      `https://${host_name}/repos/${organization_name}/${repo_name}/commits`,
+      config
     );
     let data = response.data;
     data.map((obj) => {
@@ -38,8 +49,7 @@ async function newContributor(repo_name, year, month) {
       let objDateMonth = moment(obj.commit.author.date).format('MM');
       //  if any query contains
       if (year || month) {
-        if (month === objDateMonth) {
-          console.log('Found');
+        if (month === objDateMonth && year === objDateYear) {
           if (!uniqueContributorsEmail.has(obj.commit.author.email)) {
             uniqueContributorsEmail.add(obj.commit.author.email);
           }
@@ -55,16 +65,12 @@ async function newContributor(repo_name, year, month) {
         }
       }
     });
-    // converting Set to object
+    // converting Set to proper object like
     // {
-    //   1: "umar@gmail.com", ...
+    //   0: "umar@gmail.com", ...
     // }
-    if (uniqueContributorsEmail) {
-      const obj = Object.assign(...Array.from(uniqueContributorsEmail, (v, i) => ({ i: [v] })));
-      return obj;
-    } else {
-      return {};
-    }
+    const obj = Object.assign({}, [...uniqueContributorsEmail]);
+    return obj;
   } catch (error) {
     console.log(error.message);
   }
@@ -72,4 +78,5 @@ async function newContributor(repo_name, year, month) {
 
 module.exports = {
   getAllReposData,
+  newContributor,
 };
