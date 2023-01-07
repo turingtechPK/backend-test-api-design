@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const moment = require('moment/moment')
 
 const reposistorySchema = new Schema({
   repo: String,
@@ -11,7 +12,7 @@ const reposistorySchema = new Schema({
 
 //middleware to update updatedAt field
 reposistorySchema.pre('save', function (next) {
-  this.updatedAt = Date.now()
+  this.updatedAt = moment.utc().format('YYYY-MM-DD')
   next()
 })
 
