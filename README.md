@@ -7,6 +7,8 @@ to access the api use the following url
 {{backendURL}}/github_api/newContributors/{{org}}/{{repo}}/year/month
 backendURL currently is localhost:3000
 
+videoExplanationOfCode : https://www.loom.com/share/ae1ccfccd86847a5a57f27996c43545c
+
 eg: http://localhost:3000/github_api/newContributors/airbnb/HorizonCalendar 
 gave response :
 {
@@ -16,7 +18,6 @@ gave response :
     "month": 1,
     "newContributors": 7
 }
-
 
 
 SOLUTION APPROACH USED:
@@ -29,13 +30,12 @@ This problem can be divided into five steps
 4. process the data to get the required result 
 5. cater all the cases required other than sending the data (error handling etc)
 
-1... for step 1 currently using AXIOS to fetch the api data, apis are working fine but no significant way to do this without using nested loops...
-1... AXIOS DOES NOT FACILITATE MORE THAN 50 Requests per hour... first focus is getting the task done... to reduce the complexity and cost of making the api call of commits, will use mongoDb to store some data for future reference.
+1... for step 1 currently using https to fetch the api data
+1... to reduce the complexity and cost of making the api call of commits, will use mongoDb to store some data for future reference.
 
 2.3.4.. using 2 apis to get the data.. saving the data in mongoDb to prevent redundant resource utilization for looping the commits.
 
-5... api limit exausted.... however, now that axios seems to be functioning fine, but 50 calls per hour is not sufficient ,,,,,,  switchingg back to https.....
-sub steps needed for task 5:
+5... sub steps needed for task 5:
 1: get all contributors -- loop through all pages of contributors 
 2: get data from db
 3: check of contributors are same as that in DB
