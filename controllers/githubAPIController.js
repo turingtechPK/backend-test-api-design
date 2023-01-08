@@ -1,7 +1,6 @@
 require('dotenv').config()
 const { setRequestOptions } = require('../utilities/setRequestOptions')
 const https = require('https')
-console.log(process.env.GITHUB_TOKEN)
 
 const constants = require('../constants')
 const Repository = require('../models/repository')
@@ -27,7 +26,6 @@ const getCommits = async function (req, res) {
     let commits = await getAllCommits(owner, repo)
     res.json(commits)
   } catch (e) {
-    console.log(e)
     res.status(500).send(constants.unknownErrorMessage)
   }
 }
@@ -46,12 +44,14 @@ const newContributors = async function (req, res) {
       repo: repo,
     })
   }
-
+  if (!savedRepo.firstCommits) {
+    savedRepo.firstCommits = {}
+  }
   let contributors = await getAllContributors(owner, repo)
   if (contributors?.message) {
-    console.log(contributors);
-    if(contributors.message?.includes('API rate limit exceeded')) {
-      return res.status(500).send(constants.rateLimitExceeded)
+    console.log(contributors)
+    if (contributors.message?.includes(constants.rateLimitExceeded)) {
+      return res.status(500).send(constants.rateLimitExceededMessage)
     }
     return res.status(500).send(constants.invalidParams)
   }
@@ -64,15 +64,23 @@ const newContributors = async function (req, res) {
   })
 
   if (newContributors && Object.keys(newContributors).length > 0) {
-    // call the commits api to find the date of the first commit of each new contributor
     let commitsSince
     if (savedRepo.updatedAt) {
       commitsSince = savedRepo.updatedAt
-      commitsSince = moment(commitsSince).format('YYYY-MM-DD')
+      commitsSince = moment(commitsSince).format('YYYY-MM')
       console.log(commitsSince)
     }
+    // call the commits api to find the date of the first commit of each new contributor
     let commits = await getAllCommits(owner, repo, commitsSince)
-    commits.forEach((commit) => {
+    console.log(commits)
+    if (commits.data?.message) {
+      if (commits.data?.message?.includes(constants.rateLimitExceeded)) {
+        return res.status(500).send(constants.rateLimitExceededMessage)
+      }
+      return res.status(500).send(constants.invalidParams)
+    }
+    commits?.forEach((commit) => {
+      console.log('NEW CONTRIBUTORS')
       if (newContributors[commit.author.login]) {
         // compare the date of the commit with the saved date of the contributor
         let possibleFirstCommitDate = moment.min([
@@ -117,6 +125,7 @@ const calculateNewContributors = async function (req, res, savedRepo) {
 
 async function getData(url) {
   const options = setRequestOptions(url)
+  console.log(options)
   return new Promise((resolve, reject) => {
     https
       .get(options, (response) => {
@@ -149,7 +158,7 @@ const getAllContributors = async function (owner, repo) {
     const contributorsNextPage = await getData(nextResponse)
     links = parseLinkHeader(contributorsNextPage.headers.link)
     nextResponse = links?.next?.url
-    console.log('@@NEXTRESPONSE', nextResponse)
+
     contributors.data = contributors.data.concat(contributorsNextPage.data)
   }
   return contributors.data
@@ -159,11 +168,15 @@ const getAllCommits = async function (owner, repo, since) {
   let commits = await getData(
     !since
       ? `/repos/${owner}/${repo}/commits?page=1&per_page=100`
-      : `/repos/${owner}/${repo}/commits?page=1&per_page=100&since=${since}-01T00:00:00Z`,
+      : `/repos/${owner}/${repo}/commits?page=1&per_page=100&since=${since}-01T00:00:00` +
+          'Z',
   )
 
+  if (commits.data.message) {
+    return commits
+  }
+
   let links = parseLinkHeader(commits.headers.link)
-  console.log(links)
   let nextResponse = links?.next?.url
   console.log(nextResponse)
   // get all cointributors of this repo from the paginated api

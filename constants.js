@@ -5,5 +5,6 @@ const constants = {
   unknownErrorMessage: 'Oops! Something went wrong!',
   invalidParams: 'Invalid parameters. Please Check Owner and Repo names',
   rateLimitExceeded: 'API rate limit exceeded',
+  rateLimitExceededMessage: 'API rate limit exceeded. Try Again In An Hour',
 }
 module.exports = constants

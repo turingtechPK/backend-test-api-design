@@ -1,5 +1,26 @@
 # TuringTech Technical Test / Backend API (Beginner -> Intermediate)
 
+to access the api use the following url
+
+{{backendURL}}/github_api/newContributors/{{org}}/{{repo}}/
+{{backendURL}}/github_api/newContributors/{{org}}/{{repo}}/year
+{{backendURL}}/github_api/newContributors/{{org}}/{{repo}}/year/month
+backendURL currently is localhost:3000
+
+eg: http://localhost:3000/github_api/newContributors/airbnb/HorizonCalendar 
+gave response :
+{
+    "org": "airbnb",
+    "repository": "HorizonCalendar",
+    "year": 1970,
+    "month": 1,
+    "newContributors": 7
+}
+
+
+
+SOLUTION APPROACH USED:
+
 This problem can be divided into five steps
 
 1. Start the server and successfully fetch data from any github api
@@ -18,11 +39,11 @@ sub steps needed for task 5:
 1: get all contributors -- loop through all pages of contributors 
 2: get data from db
 3: check of contributors are same as that in DB
-3.1: if same ... calculate count and send response
+3.1: if same ... move to step 6
 3.2: if not same move to step 4
 4: call commits api with start data fetched from Db -- loop through all pages of contributors 
 5. loop through commits to find first commit of user
-
+6. calculate count and send response
 
 
 

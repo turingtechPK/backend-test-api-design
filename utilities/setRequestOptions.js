@@ -9,7 +9,7 @@ const setRequestOptions = (_path) => {
     headers: {
       'User-Agent': constants.userAgency,
     },
-    OAUth: process.env.GITHUB_ACCESS_TOKEN,
+    // OAUth: process.env.GITHUB_TOKEN,
   })
 }
 
