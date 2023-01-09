@@ -1,0 +1,9 @@
+# Dependency directories
+node_modules/
+
+# test files
+coverage
+jest-stare
+
+# environment variables
+.env
