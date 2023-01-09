@@ -258,7 +258,6 @@ exports.getNewContributors = (req, res) => {
     }
 }
 
-
 // gets the users' details...
 exports.getUserDetails = (req, res) => {
     const username = req.params.username;
