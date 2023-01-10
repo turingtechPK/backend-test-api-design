@@ -101,7 +101,7 @@ const calculateNewContributors = async function (req, res, savedRepo) {
     req.params.year && req.params.year > 1969 ? req.params.year : 1970,
   )
   let month = parseInt(
-    req.params.month && 13 > req.param.month > 0 ? req.params.month : 1,
+    req.params.month && 13 > req.params.month > 0 ? req.params.month : 1,
   )
 
   let newContributorsCount = 0
