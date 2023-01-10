@@ -7,10 +7,11 @@ to access the api use the following url
 {{backendURL}}/github_api/newContributors/{{org}}/{{repo}}/year/month
 backendURL currently is localhost:3000
 
-updated videoExplanationOfCode : https://www.loom.com/share/28ca9a9ec9954e08b0a9e6092ec350f2
+updated videoExplanationOfCode : https://www.loom.com/share/d8168d9bd2504688b48ccdd8df7fd499
 
 eg: http://localhost:3000/github_api/newContributors/airbnb/HorizonCalendar 
 gave response :
+
 {
     "org": "airbnb",
     "repository": "HorizonCalendar",
