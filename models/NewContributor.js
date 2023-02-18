@@ -1,16 +1,14 @@
 const mongoose = require("mongoose");
 
-const githubSchema = new mongoose.Schema(
+const NewContributorSchema = new mongoose.Schema(
     {
-        title : {type: String, required: true},
-        courseNo : {type: Number, required: true},
-        theoryCredits: {type: Number},
-        labCredits: {type: Number},
-        degree: {type: String},
-        department: {type: String},
-        program: {type: String}
+        org : {type: String, required: true},
+        repository : {type: String, required: true},
+        year: {type: String, required: true},
+        month: {type: String},
+        newContributors: {type: Number, required: true}
     },
     {timestamps: true}
 );
 
-module.exports = mongoose.model("Course", CourseSchema)
+module.exports = mongoose.model("NewContributor", NewContributorSchema)
