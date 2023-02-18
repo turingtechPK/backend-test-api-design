@@ -1,80 +1,124 @@
-# TuringTech Technical Test / Backend API (Beginner -> Intermediate)
 
-The goal of this test is to evaluate your ability:
-- to architecture a simple but reliable backend application,
-- to process data and compute metrics,
-- and to build a JSON API delivering these metrics.
+# Github Repo New Contributors
 
-## Instructions
 
-For an organisation of your choice on GitHub (that has public repositories like Airbnb https://github.com/airbnb) , you need to build an app that computes the number of monthly new contributors for each of those repositories, from the month of their creation until now.
+### Description
 
-A new contributor is someone who did a commit for the first time in a repository.
+This is an API which can fetch the number of new contributors according to particular owner and repo. You need to provide Year and Month as additional parameters to fetch results in that particular period of time. It uses GitHub Octokit API to fetch the results.
 
-### Homework
-Build a **straightforward** application able to fetch data from GitHub API in a reliable and efficient way. You'll need to handle GitHub API errors and rate limit so that calls are retried properly.
 
-Store the fetched data in a storage system of your choice (in-memory, filesystem, database, ...) and expose a HTTP JSON API delivering the results. The format of the API is the following (example with Facebook):
+## Set up Project Requirements
 
-```json
-//GET /facebook/react/2019
-{
-    "org": "Facebook",
-    "repository": "react", 
-    "year": "2019",
-    "newContributors": ...,
-}
+You need following requirement to setup your project:
 
-//GET /facebook/jest/2018
-{
-    "org": "Facebook",
-    "repository": "jest", 
-    "year": "2018",
-    "newContributors": ...,
-}
-```
+### Prerequisites
 
-```json
-//GET /facebook/react/2019/06
-{
-    "org": "Facebook",
-    "repository": "react",
-    "year": "2019",
-    "month": "06",
-    "newContributors": ...,
-}
+- Node (https://node.org/)
+- Github (https://github.com/)
 
-//GET /facebook/jest/2018/03
-{
-    "org": "Facebook",
-    "repository": "jest",
-    "year": "2018",
-    "month": "03",
-    "newContributors": ...,
-}
-```
-You can access the GitHub API using your personal GitHub account. There are many ways to retrieve the needed data, choose the most simple one, you do not need to handle more than what is required for the app.
+### Install Project
 
-### Evaluation Criteria
+Here are the steps to be taken after that:
 
-- Node best practices
-- Completeness: did you complete the features?
-- Correctness: does the functionality act in sensible, thought-out ways?
-- Maintainability: is it written in a clean, maintainable way?
-- Testing: is the system adequately tested?
-- Documentation: is the API well-documented?
 
-### Bonus
+1. Clone the repository:
 
-- Use typescript
-- Use NestJS or any other node.js framework like Express/Fastify
+git clone https://github.com/AniqJaved/backend-test-api-design.git
 
-### Code Submit
-Please organize, design, test and document your code as if it were going into production. Fork this repository and send us a pull request. We will review it and get back to you in order to talk about your code! 
 
-__Feel free to apply! Drop us a line with your Linkedin/Github/Twitter/AnySocialProfileWhereYouAreActive at hr@turingtechnologies.org__
+2. Change directory:
+    ```bash
+    cd backend-test-api-design
+    ```
+3. Install dependencies
+    ```bash
+    npm install
+    ```
 
-### Questions
-Please remember that the test has all the information you need to complete it, in case of confusion just make an assumption and move forward with your work.
+4. Create a .env file
+5. In the .env file add
+    ```bash
+    MONGO_URL =  Add mongodb url
+    AUTH_TOKEN = Add github authentication token
+    ```
+6. Start the server
+    ```bash
+    npm start
+    ```
 
-All the best and happy coding.
+### Usage
+
+#### GET SINGLE REPO NEW CONTRIBUTORS
+
+By using GET Request:
+
+1. In order to get a single repo new contributors by year use owner of repo (in this case airbnb) and name of repo (in this case javascript). Also add year (in this case 2022)
+    ```bash
+    localhost:8800/api/newContributors/airbnb/javascript/2022
+    ```
+
+2. In order to get a single repo new contributors use owner of repo (in this case airbnb) and name of repo (in this case javascript). Also add year (in this case 2022) and month (in this case 08)
+    ```bash
+    localhost:8800/api/newContributors/airbnb/javascript/2022/08
+    ```
+
+
+#### POST NEW CONTRIBUTORS
+ By using POST Request:
+
+ 1. In order to post a single repo new contributors by year use owner of repo (in this case airbnb) and name of repo (in this case javascript). Also add year (in this case 2022)
+    ```bash
+    localhost:8800/api/newContributors/airbnb/javascript/2022
+    ```
+
+2. In order to post a single repo new contributors use owner of repo (in this case airbnb) and name of repo (in this case javascript). Also add year (in this case 2022) and month (in this case 08)
+    ```bash
+    localhost:8800/api/newContributors/airbnb/javascript/2022/08
+    ```
+
+#### GET ALL REPO NEW CONTRIBUTORS
+By using GET Request:
+
+ 1. In order to get all the repos stored use:
+    ```bash
+    localhost:8800/api/newContributors/all
+    ```
+
+
+## Code Of Conduct 📜
+
+To maintain a safe and inclusive space for everyone to learn and grow, contributors are advised to follow the [Code of Conduct](https://github.com/AniqJaved/employee_evaluation/blob/master/CODE_OF_CONDUCT.md).
+
+
+## Contribution is fun! ✌🏼
+
+If you have any feedback or suggestions please reach out to me.  
+
+In order to make a hassle-free environment, I implore you all (while contributing) to follow the instructions [Contributing Guidelines](https://github.com/AniqJaved/employee_evaluation/blob/master/CONTRIBUTING.md)!
+
+You can create a <a href="https://github.com/AniqJaved/employee_evaluation/issues">issue</a> and mention there , which new features or extension can make this Project more good.
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+
+<br>
+  
+<br>
+
+
+<div align="center">
+
+### Show some ❤️ by starring⭐ this awesome Repository!
+
+</div>
+<br>  
+
+<h1 align=center> OUR VALUABLE CONTRIBUTORS✨ </h1>
+<p align="center">
+  
+	
+<a href="https://github.com/AniqJaved/backend-test-api-design/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AniqJaved/backend-test-api-design" />
+</a>
+
+
