@@ -18,7 +18,7 @@ export class GithubService {
     try {
       //Initializing authorization token for Github API
       const headers = {
-        Authorization: `token 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`,
+        Authorization: `token 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`,
       };
       //Requesting for Data for all the repositories of the org
       const response = await axios.get(
@@ -73,7 +73,7 @@ export class GithubService {
     try {
       //Initializing authorization token for Github API
       const headers = {
-        Authorization: `token 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`,
+        Authorization: `token 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`,
       };
       //Requesting for Data for all the commits for the given repository
       const response = await axios.get(
@@ -128,7 +128,7 @@ export class GithubService {
     try {
       //Initializing authorization token for Github API
       const headers = {
-        Authorization: `token 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`,
+        Authorization: `token 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`,
       };
       //Requesting for Data for all the commits for the given repository
       const response = await axios.get(
