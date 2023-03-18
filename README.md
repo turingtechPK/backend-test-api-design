@@ -1,80 +1,73 @@
-# TuringTech Technical Test / Backend API (Beginner -> Intermediate)
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+</p>
 
-The goal of this test is to evaluate your ability:
-- to architecture a simple but reliable backend application,
-- to process data and compute metrics,
-- and to build a JSON API delivering these metrics.
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-## Instructions
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-For an organisation of your choice on GitHub (that has public repositories like Airbnb https://github.com/airbnb) , you need to build an app that computes the number of monthly new contributors for each of those repositories, from the month of their creation until now.
+## Description
 
-A new contributor is someone who did a commit for the first time in a repository.
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-### Homework
-Build a **straightforward** application able to fetch data from GitHub API in a reliable and efficient way. You'll need to handle GitHub API errors and rate limit so that calls are retried properly.
+## Installation
 
-Store the fetched data in a storage system of your choice (in-memory, filesystem, database, ...) and expose a HTTP JSON API delivering the results. The format of the API is the following (example with Facebook):
-
-```json
-//GET /facebook/react/2019
-{
-    "org": "Facebook",
-    "repository": "react", 
-    "year": "2019",
-    "newContributors": ...,
-}
-
-//GET /facebook/jest/2018
-{
-    "org": "Facebook",
-    "repository": "jest", 
-    "year": "2018",
-    "newContributors": ...,
-}
+```bash
+$ npm install
 ```
 
-```json
-//GET /facebook/react/2019/06
-{
-    "org": "Facebook",
-    "repository": "react",
-    "year": "2019",
-    "month": "06",
-    "newContributors": ...,
-}
+## Running the app
 
-//GET /facebook/jest/2018/03
-{
-    "org": "Facebook",
-    "repository": "jest",
-    "year": "2018",
-    "month": "03",
-    "newContributors": ...,
-}
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
 ```
-You can access the GitHub API using your personal GitHub account. There are many ways to retrieve the needed data, choose the most simple one, you do not need to handle more than what is required for the app.
 
-### Evaluation Criteria
+## Test
 
-- Node best practices
-- Completeness: did you complete the features?
-- Correctness: does the functionality act in sensible, thought-out ways?
-- Maintainability: is it written in a clean, maintainable way?
-- Testing: is the system adequately tested?
-- Documentation: is the API well-documented?
+```bash
+# unit tests
+$ npm run test
 
-### Bonus
+# e2e tests
+$ npm run test:e2e
 
-- Use typescript
-- Use NestJS or any other node.js framework like Express/Fastify
+# test coverage
+$ npm run test:cov
+```
 
-### Code Submit
-Please organize, design, test and document your code as if it were going into production. Fork this repository and send us a pull request. We will review it and get back to you in order to talk about your code! 
+## Support
 
-__Feel free to apply! Drop us a line with your Linkedin/Github/Twitter/AnySocialProfileWhereYouAreActive at hr@turingtechnologies.org__
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-### Questions
-Please remember that the test has all the information you need to complete it, in case of confusion just make an assumption and move forward with your work.
+## Stay in touch
 
-All the best and happy coding.
+- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
+
+## License
+
+Nest is [MIT licensed](LICENSE).
