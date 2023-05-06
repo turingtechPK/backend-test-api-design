@@ -1,42 +1,39 @@
 const repository = require("../models/repository");
 
-// Get data for a specific year
-const getDataByYear = async (org, repo, year) => {
+// Get data for a specific year and optionally a specific month
+const getDataByMonthAndYear = async (org, repo, year, month = null) => {
   // Check if the parameters are valid
   if (!org || typeof org !== "string")
-    throw new Error("Invalid organization name");
-
+    return {
+      error: "Invalid organization name",
+    };
   if (!repo || typeof repo !== "string")
-    throw new Error("Invalid repository name");
-
-  if (!year || typeof year !== "number") throw new Error("Invalid year");
+    return {
+      error: "Invalid repository name",
+    };
+  if (!year || typeof year !== "number")
+    return {
+      error: "Invalid year",
+    };
+  if (month && typeof month !== "number")
+    return {
+      error: "Invalid month",
+    };
 
   try {
-    const data = await repository.find({ org, repo, year });
-    return data;
+    // Construct the query and add the month if it was specified
+    const query = { org, repo, year };
+    if (month) query.month = month;
+
+    const data = await repository.find(query);
+
+    return {
+      data: data,
+    };
   } catch (error) {
-    throw new Error("Failed to get data by year");
-  }
-};
-
-// Get data for a specific month and year
-const getDataByMonthAndYear = async (org, repo, year, month) => {
-  // Check if the parameters are valid
-  if (!org || typeof org !== "string")
-    throw new Error("Invalid organization name");
-
-  if (!repo || typeof repo !== "string")
-    throw new Error("Invalid repository name");
-
-  if (!year || typeof year !== "number") throw new Error("Invalid year");
-
-  if (!month || typeof month !== "number") throw new Error("Invalid month");
-
-  try {
-    const data = await repository.find({ org, repo, year, month });
-    return data;
-  } catch (error) {
-    throw new Error("Failed to get data by month and year");
+    return {
+      error: "Failed to get data",
+    };
   }
 };
 
@@ -44,17 +41,22 @@ const getDataByMonthAndYear = async (org, repo, year, month) => {
 const saveData = async (org, repo, year, month = null, newContributors) => {
   // Check if the parameters are valid
   if (!org || typeof org !== "string")
-    throw new Error("Invalid organization name");
-
+    return {
+      error: "Invalid organization name",
+    };
   if (!repo || typeof repo !== "string")
-    throw new Error("Invalid repository name");
-
-  if (!year || typeof year !== "number") throw new Error("Invalid year");
-
-  if (month && typeof month !== "number") throw new Error("Invalid month");
-
+    return {
+      error: "Invalid repository name",
+    };
+  if (!year || typeof year !== "number")
+    return {
+      error: "Invalid year",
+    };
+  if (month && typeof month !== "number") return { error: "Invalid month" };
   if (!newContributors || typeof newContributors !== "number")
-    throw new Error("Invalid number of new contributors");
+    return {
+      error: "Invalid number of new contributors",
+    };
 
   try {
     const data = await repository.create({
@@ -64,9 +66,13 @@ const saveData = async (org, repo, year, month = null, newContributors) => {
       month,
       newContributors,
     });
-    return data;
+    return {
+      data: data,
+    };
   } catch (error) {
-    throw new Error("Failed to save data");
+    return {
+      error: "Failed to save data",
+    };
   }
 };
 
