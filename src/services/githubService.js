@@ -17,14 +17,12 @@ async function fetchFromGitHub(org, repo, year, month = null) {
 
   // Calculate the end date
   const endDate = `${year}-12-31T23:59:59Z`;
-  let msg = `Fetching page ${nextPage}...`; // Message to display in the console
 
   // Fetch the data
   do {
     try {
       // Construct the URL
       let url = `${BASE_URL}/repos/${org}/${repo}/commits?until=${endDate}&per_page=100&page=${nextPage}`;
-      console.log(msg);
 
       // Fetch the data
       const response = await fetch(url, { headers });
@@ -57,7 +55,6 @@ async function fetchFromGitHub(org, repo, year, month = null) {
           if (hasMorePages) {
             // Update the page number
             nextPage++;
-            msg = `Fetching page ${nextPage} of ${lastPage}...`;
 
             // Check whether the last page has been reached
             if (nextPage > lastPage) {
