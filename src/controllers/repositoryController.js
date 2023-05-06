@@ -5,19 +5,19 @@ const getData = async (org, repo, year, month = null) => {
   // Check if the parameters are valid
   if (!org || typeof org !== "string")
     return {
-      error: "Invalid organization name",
+      error: "Database: Invalid organization name",
     };
   if (!repo || typeof repo !== "string")
     return {
-      error: "Invalid repository name",
+      error: "Database: Invalid repository name",
     };
   if (!year || typeof year !== "number")
     return {
-      error: "Invalid year",
+      error: "Database: Invalid year",
     };
   if (month && typeof month !== "number")
     return {
-      error: "Invalid month",
+      error: "Database: Invalid month",
     };
 
   try {
@@ -42,22 +42,23 @@ const saveData = async (org, repo, year, month = null, newContributors) => {
   // Check if the parameters are valid
   if (!org || typeof org !== "string")
     return {
-      error: "Invalid organization name",
+      error: "Database: Invalid organization name",
     };
   if (!repo || typeof repo !== "string")
     return {
-      error: "Invalid repository name",
+      error: "Database: Invalid repository name",
     };
   if (!year || typeof year !== "number")
     return {
-      error: "Invalid year",
+      error: "Database: Invalid year",
     };
   if (month && typeof month !== "number") return { error: "Invalid month" };
   if (typeof newContributors !== "number")
     return {
-      error: "Invalid number of new contributors",
+      error: "Database: Invalid number of new contributors",
     };
 
+  if (!month) month = 0;
   try {
     const data = await repository.create({
       org,
@@ -71,7 +72,7 @@ const saveData = async (org, repo, year, month = null, newContributors) => {
     };
   } catch (error) {
     return {
-      error: `Failed to save data: ${error.message}`,
+      error: `Database: Failed to save data: ${error.message}`,
     };
   }
 };
