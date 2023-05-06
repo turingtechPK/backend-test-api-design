@@ -1,7 +1,7 @@
 const repository = require("../models/repository");
 
 // Get data for a specific year and optionally a specific month
-const getDataByMonthAndYear = async (org, repo, year, month = null) => {
+const getData = async (org, repo, year, month = null) => {
   // Check if the parameters are valid
   if (!org || typeof org !== "string")
     return {
@@ -25,19 +25,19 @@ const getDataByMonthAndYear = async (org, repo, year, month = null) => {
     const query = { org, repo, year };
     if (month) query.month = month;
 
-    const data = await repository.find(query);
+    const data = await repository.findOne(query);
 
     return {
       data: data,
     };
   } catch (error) {
     return {
-      error: "Failed to get data",
+      error: `Failed to get data: ${error.message}`,
     };
   }
 };
 
-// Save data to the database
+// Save the data to the database
 const saveData = async (org, repo, year, month = null, newContributors) => {
   // Check if the parameters are valid
   if (!org || typeof org !== "string")
@@ -53,7 +53,7 @@ const saveData = async (org, repo, year, month = null, newContributors) => {
       error: "Invalid year",
     };
   if (month && typeof month !== "number") return { error: "Invalid month" };
-  if (!newContributors || typeof newContributors !== "number")
+  if (typeof newContributors !== "number")
     return {
       error: "Invalid number of new contributors",
     };
@@ -71,14 +71,13 @@ const saveData = async (org, repo, year, month = null, newContributors) => {
     };
   } catch (error) {
     return {
-      error: "Failed to save data",
+      error: `Failed to save data: ${error.message}`,
     };
   }
 };
 
 // Export the functions
 module.exports = {
-  getDataByYear,
-  getDataByMonthAndYear,
+  getData,
   saveData,
 };
