@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 
 const repositorySchema = new mongoose.Schema({
-  org: { String, required: true },
-  repository: { String, required: true },
-  year: { Number, required: true },
-  month: { Number, default: 0 },
-  newContributors: { Number, default: 0 },
+  org: { type: String, required: true },
+  repo: { type: String, required: true },
+  year: { type: Number, required: true },
+  month: { type: Number, default: 0 },
+  newContributors: { type: Number, default: 0 },
 });
 
 const Repository = mongoose.model("Repository", repositorySchema);
+
+module.exports = Repository;
