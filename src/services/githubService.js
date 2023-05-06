@@ -17,8 +17,7 @@ async function fetchFromGitHub(org, repo, year, month = null) {
 
   // Calculate the end date
   const endDate = `${year}-12-31T23:59:59Z`;
-
-  let msg = `Fetching page ${nextPage}...`;
+  let msg = `Fetching page ${nextPage}...`; // Message to display in the console
 
   // Fetch the data
   do {
@@ -107,8 +106,6 @@ async function fetchFromGitHub(org, repo, year, month = null) {
   const newContributors = new Set(); // Use a set to avoid duplicates
   const firstCommitDateByUser = {}; // Keep track of the first commit date for each user
 
-  console.log(commits.length);
-
   // Iterate over the commits
   for (const commit of commits) {
     const commitDate = new Date(commit.commit.author.date); // Get the commit date
@@ -134,7 +131,7 @@ async function fetchFromGitHub(org, repo, year, month = null) {
   }
 
   return {
-    newContributers: newContributors.size,
+    newContributors: newContributors.size,
   };
 }
 
