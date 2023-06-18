@@ -1,0 +1,2 @@
+export const GITHUB_PROVIDER_TOKEN = 'GITHUB_PROVIDER_TOKEN';
+export const GITHUB_COLLECTION = 'github';
