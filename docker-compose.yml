@@ -1,0 +1,26 @@
+version: '3'
+services:
+  # Mongodb service
+  mongo_db:
+    container_name: db_container
+    image: mongo
+    restart: always
+    environment:
+        - MONGO_INITDB_ROOT_USERNAME=app_user
+        - MONGO_INITDB_ROOT_PASSWORD=app_password
+        - MONGO_INITDB_DATABASE=admin
+    volumes:
+      - mongo_data:/data/db
+
+  # Node api service
+  api:
+    build: .
+    environment:
+      - PORT=${PORT}
+      - MONGODB_URI=${MONGO_URI}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+    depends_on: 
+      - mongo_db
+
+volumes:
+  mongo_data: {}
