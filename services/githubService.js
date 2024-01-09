@@ -1,22 +1,38 @@
 const GithubModel = require('../models/githubModel');
 const utils = require('../utils/utils');
-const axios = require('axios');
 
 const getContributorsByYear = async (org, repository, year) => {
-    if (!utils.validateInputParameters(org, repository, year)) {
-        throw new Error('Invalid input parameters');
-    }
-
-    let existingData = await GithubModel.findOne({ org, repository, year });
-    if (existingData) {
-        return existingData.new_githubs;
-    } else {
+    try {
         const newContributors = await utils.fetchNewContributorsFromGithub(org, repository, year);
-        await GithubModel.create({ org, repository, year, new_githubs: newContributors });
+        await GithubModel.create({ org, repository, year, new_contributors: newContributors });
         return newContributors;
+    } catch (error) {
+        if (error.message === 'Module is not set up yet') {
+            // Handle the case where the utils module is not ready
+            console.error('Utils module is not ready. Please try again later.');
+        } else {
+            // Handle other errors
+            console.error('Error:', error);
+        }
     }
 };
 
+
+const getContributorsByMonth = async (org, repository, year, month) => {
+    try {
+        const newContributors = await utils.fetchNewContributorsFromGithub(org, repository, year, month - 1);
+        await GithubModel.create({ org, repository, year, month, new_contributors: newContributors });
+        return newContributors;
+    } catch (error) {
+        if (error.message === 'Module is not set up yet') {
+            console.error('Utils module is not ready. Please try again later.');
+        } else {
+            console.error('Error:', error);
+        }
+    }
+}
+
 module.exports = {
-    getContributorsByYear
+    getContributorsByYear,
+    getContributorsByMonth
 };

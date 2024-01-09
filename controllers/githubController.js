@@ -9,3 +9,19 @@ const getgithubByYear = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+
+
+const getgithubByMonth = async (req, res) => {
+    try {
+        const { org, repository, year, month } = req.params;
+        const newContributors = await githubService.getContributorsByMonth(org, repository, year, month);
+        res.json({ org, repository, year, month, newContributors });
+    } catch (error) {
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+module.exports = {
+    getgithubByYear,
+    getgithubByMonth
+};

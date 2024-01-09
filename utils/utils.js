@@ -1,68 +1,49 @@
-const axios = require('axios');
-const axiosRetry = require('axios-retry');
+let fetch;
+let isSetupComplete = false;
 
-// Set up the GitHub API client
-const githubClient = axios.create({
-    baseURL: 'https://api.github.com',
-    headers: { 'Authorization': `Bearer ${process.env.GITHUB_TOKEN}` }
-});
 
-// Apply the retry configuration to the GitHub client
-axiosRetry(githubClient, {
-    retries: 3,
-    retryDelay: retryCount => retryCount * 2000,
-    retryCondition: error => {
-        return error.response?.status === 403 && error.response.data.message.includes('API rate limit exceeded');
+const fetchWithRetry = async (url, options = {}, retries = 3, retryDelay = 2000) => {
+    if (!isSetupComplete) {
+        throw new Error('Module is not set up yet');
     }
-});
-
-axiosRateLimit(githubClient, {
-    maxRequests: 10,
-    perMilliseconds: 1000,
-    maxRPS: 10
-});
-
-/**
- * Validates the input parameters for organization, repository, and year.
- * 
- * @param {string} org - The GitHub organization name.
- * @param {string} repository - The GitHub repository name.
- * @param {number} year - The year for which contributors are to be fetched.
- * @returns {boolean} - Returns true if parameters are valid, false otherwise.
- */
-const validateInputParameters = (org, repository, year) => {
-    const currentYear = new Date().getFullYear();
-    return typeof org === 'string' && 
-           typeof repository === 'string' && 
-           Number.isInteger(year) && 
-           year <= currentYear;
-};
-
-/**
- * Fetches new contributors from GitHub.
- * 
- * @param {string} org - The GitHub organization name.
- * @param {string} repo - The GitHub repository name.
- * @param {number} year - The year for which contributors are to be fetched.
- * @returns {Promise<string[]>} - A promise that resolves to an array of new contributor usernames.
- */
-const fetchNewContributorsFromGithub = async (org, repo, year) => {
     try {
-        const sinceDate = new Date(year, 0, 1);
-        const contributorsResponse = await githubClient.get(`/repos/${org}/${repo}/contributors`);
-        const contributors = contributorsResponse.data;
+        const response = await fetch(url, options);
+        if (!response.ok && retries > 0 && response.status === 403) {
+            await new Promise(resolve => setTimeout(resolve, retryDelay));
+            return fetchWithRetry(url, options, retries - 1, retryDelay);
+        }
+        return response;
+    } catch (error) {
+        if (retries > 0) {
+            await new Promise(resolve => setTimeout(resolve, retryDelay));
+            return fetchWithRetry(url, options, retries - 1, retryDelay);
+        }
+        throw error;
+    }
+};
+const fetchNewContributorsFromGithub = async (org, repo, year, month = 0) => {
+    if (!isSetupComplete) {
+        throw new Error('Module is not set up yet');
+    }
+    try {
+        const sinceDate = new Date(year, month, 1);
+        const contributorsResponse = await fetchWithRetry(`https://api.github.com/repos/${org}/${repo}/contributors`, {
+            headers: { 'Authorization': `Bearer ${process.env.GITHUB_TOKEN}` }
+        });
+        const contributors = await contributorsResponse.json();
 
         const commitPromises = contributors.map(contributor =>
-            githubClient.get(`/repos/${org}/${repo}/commits`, { params: { author: contributor.login } })
+            fetchWithRetry(`https://api.github.com/repos/${org}/${repo}/commits?author=${contributor.login}`, {
+                headers: { 'Authorization': `Bearer ${process.env.GITHUB_TOKEN}` }
+            }).then(response => response.json().then(data => ({ data, author: contributor.login })))
         );
 
         const commitsResponses = await Promise.all(commitPromises);
-
         const newContributorsList = commitsResponses
             .filter(response => response.data.length > 0)
             .map(response => {
                 const firstCommitDate = new Date(response.data[response.data.length - 1].commit.committer.date);
-                return firstCommitDate >= sinceDate ? response.config.params.author : null;
+                return firstCommitDate >= sinceDate ? response.author : null;
             })
             .filter(login => login !== null);
 
@@ -73,7 +54,12 @@ const fetchNewContributorsFromGithub = async (org, repo, year) => {
     }
 };
 
+(async () => {
+    fetch = (await import('node-fetch')).default;
+    isSetupComplete = true;
+})();
+
 module.exports = {
-    validateInputParameters,
-    fetchNewContributorsFromGithub
+    fetchNewContributorsFromGithub,
+    fetchWithRetry
 };

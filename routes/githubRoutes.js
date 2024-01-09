@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const {signup, login, deleteStudent, updateStudent, getStudent, getStudentCount} = require('../controllers/githubController')
+const { getgithubByYear, getgithubByMonth } = require('../controllers/githubController')
 
 // GET  api/githubRoute/status/
-router.get('/status',(req,res) => {
+router.get('/status', (req, res) => {
     res.status(200).send("App Status : Working (Github)")
 })
 
-router.get('/:org/:repository/:year', githubController.getgithubByYear);
-router.get('/:org/:repository/:year/:month', githubController.getgithubByMonth);
+router.get('/:org/:repository/:year', getgithubByYear);
+router.get('/:org/:repository/:year/:month', getgithubByMonth);
 
 module.exports = router
