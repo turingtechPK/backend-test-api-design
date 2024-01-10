@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  title: GitHub Metrics API
+  description: API to fetch GitHub metrics
+  version: 1.0.0
+
+paths:
+  /api/{org}/{repo}/{year}/{month}:
+    get:
+      summary: Retrieve new contributors data
+      parameters:
+        - in: path
+          name: org
+          required: true
+          description: GitHub organization
+          schema:
+            type: string
+        - in: path
+          name: repo
+          required: true
+          description: GitHub repository
+          schema:
+            type: string
+        - in: path
+          name: year
+          required: true
+          description: Year for which to compute new contributors
+          schema:
+            type: string
+        - in: path
+          name: month
+          required: false
+          description: Month for which to compute new contributors
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                org: 'example'
+                repository: 'example-repo'
+                year: '2022'
+                month: '01'
+                newContributors:
+                  - login: 'user1'
+                    id: 123
+                    contributions: 5
+                  - login: 'user2'
+                    id: 456
+                    contributions: 2
+        '400':
+          description: Invalid input parameters
+          content:
+            application/json:
+              example:
+                error: 'Invalid input parameters'
+        '404':
+          description: GitHub repository not found
+          content:
+            application/json:
+              example:
+                error: 'GitHub repository not found'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: 'Internal Server Error'
